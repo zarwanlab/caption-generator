@@ -213,6 +213,13 @@ PROMPT;
         return match ($captionLanguage) {
             'fa' => 'Persian',
             'ar' => 'Arabic',
+            'es' => 'Spanish',
+            'fr' => 'French',
+            'de' => 'German',
+            'tr' => 'Turkish',
+            'ur' => 'Urdu',
+            'hi' => 'Hindi',
+            'ru' => 'Russian',
             default => 'English',
         };
     }

@@ -140,7 +140,7 @@
     </div>
 
     <header class="sticky top-0 z-40 border-b border-white/40 bg-white/70 backdrop-blur-xl">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
                 <div class="flex items-center gap-3">
                     <div class="icon-pill bg-[#0D47A1] text-white shadow-lg shadow-blue-200/60">
                         <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -150,8 +150,7 @@
                     </div>
                 </div>
 
-            <label class="flex items-center gap-3 rounded-full border border-slate-200/80 bg-white/85 px-3 py-2 shadow-sm">
-                <span class="text-xs font-bold text-slate-500" data-role="ui-language-label">{{ __('ui_language') }}</span>
+            <label class="flex w-full items-center justify-between gap-3 rounded-full border border-slate-200/80 bg-white/85 px-3 py-2 shadow-sm sm:w-auto sm:justify-start">
                 <div class="relative">
                     <select id="uiLanguageSwitcher" class="appearance-none rounded-full border-0 bg-transparent py-0 pl-3 pr-7 text-sm font-semibold text-slate-800 focus:outline-none">
                         <option value="en" data-role="language-en">English</option>
@@ -164,40 +163,61 @@
         </div>
     </header>
 
-    <main class="relative mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 lg:max-w-5xl lg:px-8 lg:py-10">
-        <section class="glass fade-in soft-border rounded-[2.5rem] p-6 sm:p-8 lg:p-10">
-            <div>
+    <main class="relative mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 lg:max-w-6xl lg:px-8 lg:py-10">
+        <section class="glass fade-in soft-border rounded-[2.5rem] p-5 sm:p-7 lg:p-10">
+            <div class="max-w-3xl">
                 <h2 class="text-3xl font-black tracking-tight text-slate-900 sm:text-5xl" data-role="hero-title">{{ __('hero_title') }}</h2>
                 <p class="mt-4 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg" data-role="hero-description">{{ __('hero_description') }}</p>
             </div>
 
             <form id="captionForm" class="mt-8 space-y-5">
-                <div class="space-y-2">
-                    <label class="text-sm font-bold text-slate-700" for="productType" data-role="product-type-label">{{ __('product_type_label') }}</label>
-                    <div class="relative">
-                        <select id="productType" class="input-surface w-full rounded-[1.25rem] border border-slate-200/80 px-4 py-4 text-base font-semibold text-slate-800 outline-none transition focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100">
-                            <option value="fashion" data-product-option>{{ __('product_fashion') }}</option>
-                            <option value="electronics" data-product-option>{{ __('product_electronics') }}</option>
-                            <option value="home_decor" data-product-option>{{ __('product_home_decor') }}</option>
-                            <option value="beauty" data-product-option>{{ __('product_beauty') }}</option>
-                            <option value="food" data-product-option>{{ __('product_food') }}</option>
-                            <option value="jewelry" data-product-option>{{ __('product_jewelry') }}</option>
-                            <option value="sports" data-product-option>{{ __('product_sports') }}</option>
-                            <option value="other" data-product-option>{{ __('product_other') }}</option>
-                        </select>
-                        <i class="fa-solid fa-caret-down pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400"></i>
+                <div class="grid gap-5 md:grid-cols-2">
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-700" for="productType" data-role="product-type-label">{{ __('product_type_label') }}</label>
+                        <div class="relative">
+                            <select id="productType" class="input-surface w-full rounded-[1.25rem] border border-slate-200/80 px-4 py-4 text-base font-semibold text-slate-800 outline-none transition focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100">
+                                <option value="fashion" data-product-option>{{ __('product_fashion') }}</option>
+                                <option value="electronics" data-product-option>{{ __('product_electronics') }}</option>
+                                <option value="beauty" data-product-option>{{ __('product_beauty') }}</option>
+                                <option value="home" data-product-option>{{ __('product_home') }}</option>
+                                <option value="kitchen" data-product-option>{{ __('product_kitchen') }}</option>
+                                <option value="food" data-product-option>{{ __('product_food') }}</option>
+                                <option value="jewelry" data-product-option>{{ __('product_jewelry') }}</option>
+                                <option value="sports" data-product-option>{{ __('product_sports') }}</option>
+                                <option value="automotive" data-product-option>{{ __('product_automotive') }}</option>
+                                <option value="kids" data-product-option>{{ __('product_kids') }}</option>
+                                <option value="health" data-product-option>{{ __('product_health') }}</option>
+                                <option value="office" data-product-option>{{ __('product_office') }}</option>
+                                <option value="pets" data-product-option>{{ __('product_pets') }}</option>
+                                <option value="toys" data-product-option>{{ __('product_toys') }}</option>
+                                <option value="travel" data-product-option>{{ __('product_travel') }}</option>
+                                <option value="phones" data-product-option>{{ __('product_phones') }}</option>
+                                <option value="computers" data-product-option>{{ __('product_computers') }}</option>
+                                <option value="books" data-product-option>{{ __('product_books') }}</option>
+                                <option value="gifts" data-product-option>{{ __('product_gifts') }}</option>
+                                <option value="others" data-product-option>{{ __('product_others') }}</option>
+                            </select>
+                            <i class="fa-solid fa-caret-down pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400"></i>
+                        </div>
                     </div>
-                </div>
 
-                <div class="space-y-2">
-                    <label class="text-sm font-bold text-slate-700" for="captionLanguage" data-role="output-language-label">{{ __('output_language') }}</label>
-                    <div class="relative">
-                        <select id="captionLanguage" class="input-surface w-full rounded-[1.25rem] border border-slate-200/80 px-4 py-4 text-base font-semibold text-slate-800 outline-none transition focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100">
-                            <option value="en" data-role="language-en">{{ __('language_english') }}</option>
-                            <option value="fa" data-role="language-fa">{{ __('language_persian') }}</option>
-                            <option value="ar" data-role="language-ar">{{ __('language_arabic') }}</option>
-                        </select>
-                        <i class="fa-solid fa-caret-down pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400"></i>
+                    <div class="space-y-2">
+                        <label class="text-sm font-bold text-slate-700" for="captionLanguage" data-role="output-language-label">{{ __('output_language') }}</label>
+                        <div class="relative">
+                            <select id="captionLanguage" class="input-surface w-full rounded-[1.25rem] border border-slate-200/80 px-4 py-4 text-base font-semibold text-slate-800 outline-none transition focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100">
+                                <option value="en" data-role="language-en">{{ __('language_english') }}</option>
+                                <option value="fa" data-role="language-fa">{{ __('language_persian') }}</option>
+                                <option value="ar" data-role="language-ar">{{ __('language_arabic') }}</option>
+                                <option value="es" data-role="language-es">{{ __('language_spanish') }}</option>
+                                <option value="fr" data-role="language-fr">{{ __('language_french') }}</option>
+                                <option value="de" data-role="language-de">{{ __('language_german') }}</option>
+                                <option value="tr" data-role="language-tr">{{ __('language_turkish') }}</option>
+                                <option value="ur" data-role="language-ur">{{ __('language_urdu') }}</option>
+                                <option value="hi" data-role="language-hi">{{ __('language_hindi') }}</option>
+                                <option value="ru" data-role="language-ru">{{ __('language_russian') }}</option>
+                            </select>
+                            <i class="fa-solid fa-caret-down pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400"></i>
+                        </div>
                     </div>
                 </div>
 
@@ -245,26 +265,28 @@
             </div>
 
             <div id="resultState" class="mt-6 hidden space-y-4">
-                <div class="rounded-[1.5rem] border border-slate-200/80 bg-white/85 p-5">
-                    <div class="flex items-center justify-between gap-3">
-                        <h4 class="text-base font-black text-slate-900" data-role="caption-title">{{ __('caption_title') }}</h4>
-                        <button type="button" data-copy-target="caption" class="copy-btn inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300">
-                            <i class="fa-solid fa-copy"></i>
-                            <span>{{ __('copy_caption') }}</span>
-                        </button>
+                <div class="grid gap-4 lg:grid-cols-2">
+                    <div class="rounded-[1.5rem] border border-slate-200/80 bg-white/85 p-5">
+                        <div class="flex items-center justify-between gap-3">
+                            <h4 class="text-base font-black text-slate-900" data-role="caption-title">{{ __('caption_title') }}</h4>
+                            <button type="button" data-copy-target="caption" class="copy-btn inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300">
+                                <i class="fa-solid fa-copy"></i>
+                                <span>{{ __('copy_caption') }}</span>
+                            </button>
+                        </div>
+                        <p id="captionText" class="mt-4 whitespace-pre-wrap text-sm leading-8 text-slate-700"></p>
                     </div>
-                    <p id="captionText" class="mt-4 whitespace-pre-wrap text-sm leading-8 text-slate-700"></p>
-                </div>
 
-                <div class="rounded-[1.5rem] border border-slate-200/80 bg-white/85 p-5">
-                    <div class="flex items-center justify-between gap-3">
-                        <h4 class="text-base font-black text-slate-900" data-role="hashtags-title">{{ __('hashtags_title') }}</h4>
-                        <button type="button" data-copy-target="hashtags" class="copy-btn inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300">
-                            <i class="fa-solid fa-copy"></i>
-                            <span>{{ __('copy_hashtags') }}</span>
-                        </button>
+                    <div class="rounded-[1.5rem] border border-slate-200/80 bg-white/85 p-5">
+                        <div class="flex items-center justify-between gap-3">
+                            <h4 class="text-base font-black text-slate-900" data-role="hashtags-title">{{ __('hashtags_title') }}</h4>
+                            <button type="button" data-copy-target="hashtags" class="copy-btn inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300">
+                                <i class="fa-solid fa-copy"></i>
+                                <span>{{ __('copy_hashtags') }}</span>
+                            </button>
+                        </div>
+                        <div id="hashtagsWrap" class="mt-4 flex flex-wrap gap-2"></div>
                     </div>
-                    <div id="hashtagsWrap" class="mt-4 flex flex-wrap gap-2"></div>
                 </div>
 
                 <div class="rounded-[1.5rem] border border-slate-200/80 bg-white/85 p-5">
@@ -345,15 +367,34 @@
                 languageEnglish: "English",
                 languagePersian: "Persian",
                 languageArabic: "Arabic",
+                languageSpanish: "Spanish",
+                languageFrench: "French",
+                languageGerman: "German",
+                languageTurkish: "Turkish",
+                languageUrdu: "Urdu",
+                languageHindi: "Hindi",
+                languageRussian: "Russian",
                 products: {
                     fashion: "Fashion & apparel",
                     electronics: "Electronics",
-                    home_decor: "Home decor",
                     beauty: "Beauty & cosmetics",
+                    home: "Home & living",
+                    kitchen: "Kitchen & dining",
                     food: "Food & beverage",
                     jewelry: "Jewelry",
                     sports: "Sports & outdoors",
-                    other: "Other"
+                    automotive: "Automotive",
+                    kids: "Kids & baby",
+                    health: "Health & wellness",
+                    office: "Office supplies",
+                    pets: "Pet supplies",
+                    toys: "Toys & games",
+                    travel: "Travel & luggage",
+                    phones: "Phones & accessories",
+                    computers: "Computers & accessories",
+                    books: "Books & stationery",
+                    gifts: "Gifts & occasions",
+                    others: "Other"
                 }
             },
             fa: {
@@ -396,15 +437,34 @@
                 languageEnglish: "انگلیسی",
                 languagePersian: "فارسی",
                 languageArabic: "عربی",
+                languageSpanish: "اسپانیایی",
+                languageFrench: "فرانسوی",
+                languageGerman: "آلمانی",
+                languageTurkish: "ترکی",
+                languageUrdu: "اردو",
+                languageHindi: "هندی",
+                languageRussian: "روسی",
                 products: {
                     fashion: "مد و پوشاک",
                     electronics: "لوازم الکترونیکی",
-                    home_decor: "دکوراسیون منزل",
                     beauty: "زیبایی و آرایشی",
+                    home: "خانه و زندگی",
+                    kitchen: "آشپزخانه و پذیرایی",
                     food: "خوراکی و نوشیدنی",
                     jewelry: "زیورآلات",
                     sports: "ورزش و فضای باز",
-                    other: "سایر"
+                    automotive: "خودرو و لوازم جانبی",
+                    kids: "کودک و نوزاد",
+                    health: "سلامت و تندرستی",
+                    office: "لوازم اداری",
+                    pets: "لوازم حیوانات خانگی",
+                    toys: "اسباب‌بازی و بازی",
+                    travel: "سفر و چمدان",
+                    phones: "موبایل و لوازم جانبی",
+                    computers: "کامپیوتر و لوازم جانبی",
+                    books: "کتاب و نوشت‌افزار",
+                    gifts: "هدیه و مناسبت‌ها",
+                    others: "سایر"
                 }
             },
             ar: {
@@ -447,15 +507,34 @@
                 languageEnglish: "الإنجليزية",
                 languagePersian: "الفارسية",
                 languageArabic: "العربية",
+                languageSpanish: "الإسبانية",
+                languageFrench: "الفرنسية",
+                languageGerman: "الألمانية",
+                languageTurkish: "التركية",
+                languageUrdu: "الأردية",
+                languageHindi: "الهندية",
+                languageRussian: "الروسية",
                 products: {
                     fashion: "الأزياء والملابس",
                     electronics: "الإلكترونيات",
-                    home_decor: "ديكور المنزل",
                     beauty: "الجمال ومستحضرات التجميل",
+                    home: "المنزل والديكور",
+                    kitchen: "المطبخ والمائدة",
                     food: "الأطعمة والمشروبات",
                     jewelry: "المجوهرات",
                     sports: "الرياضة والأنشطة الخارجية",
-                    other: "أخرى"
+                    automotive: "السيارات والإكسسوارات",
+                    kids: "الأطفال والرضع",
+                    health: "الصحة والعافية",
+                    office: "مستلزمات المكتب",
+                    pets: "مستلزمات الحيوانات الأليفة",
+                    toys: "الألعاب",
+                    travel: "السفر والحقائب",
+                    phones: "الهواتف والإكسسوارات",
+                    computers: "الكمبيوتر والإكسسوارات",
+                    books: "الكتب والقرطاسية",
+                    gifts: "الهدايا والمناسبات",
+                    others: "أخرى"
                 }
             }
         };
@@ -583,6 +662,13 @@
                 setAllText('[data-role="language-en"]', t.languageEnglish);
                 setAllText('[data-role="language-fa"]', t.languagePersian);
                 setAllText('[data-role="language-ar"]', t.languageArabic);
+                setAllText('[data-role="language-es"]', t.languageSpanish);
+                setAllText('[data-role="language-fr"]', t.languageFrench);
+                setAllText('[data-role="language-de"]', t.languageGerman);
+                setAllText('[data-role="language-tr"]', t.languageTurkish);
+                setAllText('[data-role="language-ur"]', t.languageUrdu);
+                setAllText('[data-role="language-hi"]', t.languageHindi);
+                setAllText('[data-role="language-ru"]', t.languageRussian);
 
                 uiLanguageSwitcher.value = state.uiLang;
                 setUrlLang(state.uiLang);
@@ -635,7 +721,14 @@
                 const languageLabel = {
                     en: getT().languageEnglish,
                     fa: getT().languagePersian,
-                    ar: getT().languageArabic
+                    ar: getT().languageArabic,
+                    es: getT().languageSpanish,
+                    fr: getT().languageFrench,
+                    de: getT().languageGerman,
+                    tr: getT().languageTurkish,
+                    ur: getT().languageUrdu,
+                    hi: getT().languageHindi,
+                    ru: getT().languageRussian,
                 }[item.caption_language] || item.caption_language;
 
                 return `

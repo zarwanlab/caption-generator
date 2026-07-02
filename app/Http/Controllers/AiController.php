@@ -53,8 +53,8 @@ class AiController extends Controller
                         'content' => $this->buildPrompt($productType, $captionLanguage, $productDescription),
                     ]
                 ],
-                'temperature' => 0.7,
-                'max_tokens' => 2048,
+                'temperature' => 0.6,
+                'max_tokens' => 5072,
                 'stream' => false,
             ];
 
@@ -109,7 +109,8 @@ class AiController extends Controller
         $languageLabel = $this->languageLabel($captionLanguage);
 
         return <<<PROMPT
-You are a senior Instagram growth strategist and ecommerce copywriter.
+You are a senior ecommerce growth strategist, direct-response copywriter, and Instagram conversion specialist.
+Think like a marketing lead who writes for real businesses that want attention, trust, and sales.
 Return ONLY valid JSON with this exact schema:
 {
   "caption": "string",
@@ -120,23 +121,35 @@ Return ONLY valid JSON with this exact schema:
 
 Rules:
 - Write caption, suggestion, and angle in {$languageLabel}.
-- The caption must sound premium, conversion-focused, and natural for Instagram.
-- The suggestion must be a short practical marketing recommendation.
-- The angle must explain the strongest creative angle in 3 to 8 words.
-- Provide 8 to 15 hashtags.
+- Write as if you are the in-house marketing lead for the business, not a generic assistant.
+- The caption must be business-grade, persuasive, and tailored for a storefront or brand account.
+- The caption must be longer and more useful: 2 to 3 short paragraphs, about 90 to 160 words.
+- Start with a strong hook, then highlight customer benefit, product value, and one trust-building detail.
+- Include a clear call to action near the end.
+- Use a confident but natural tone. Avoid fluff, clichés, filler, and repetitive phrasing.
+- The suggestion must be a short strategic recommendation that helps a business improve reach or conversion.
+- The angle must explain the strongest marketing angle in 3 to 6 words.
+- Provide 12 to 18 highly relevant hashtags.
 - Every hashtag must start with # and use no spaces.
-- Do not include markdown, code fences, or extra commentary.
+- Use hashtags that support business discovery, niche visibility, and buyer intent.
+- Do not mention that you are an AI.
+- Do not include markdown, code fences, bullet lists, or extra commentary.
 PROMPT;
     }
 
     private function buildPrompt($productType, $captionLanguage, $productDescription)
     {
         return <<<PROMPT
-Product type: {$productType}
-Output language: {$this->languageLabel($captionLanguage)}
-Product description: {$productDescription}
+You are writing for a real business that wants stronger engagement, better trust, and more sales.
 
-Use the product details to create an Instagram-ready caption, relevant hashtags, and a concise strategic suggestion for a store owner.
+Business context:
+- Product type: {$productType}
+- Output language: {$this->languageLabel($captionLanguage)}
+- Product description: {$productDescription}
+
+Create copy that a business owner can post immediately.
+Make the caption specific to the product details, not generic.
+Focus on benefits, positioning, persuasion, and a clear next step for the customer.
 PROMPT;
     }
 

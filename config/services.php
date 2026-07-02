@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'ai' => [
+        'base_url' => env('AI_BASE_URL', 'https://ai.zarwan.co/v1/chat/completions'),
+        'token' => env('AI_TOKEN'),
+        'model' => env('AI_MODEL', 'cf/@cf/openai/gpt-oss-120b'),
+    ],
+
 ];

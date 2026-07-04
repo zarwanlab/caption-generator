@@ -62,22 +62,47 @@
         }
 
         .fade-in {
-            animation: fadeIn 0.55s ease both;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
 
-        .fade-in-delay-1 { animation-delay: 0.08s; }
-        .fade-in-delay-2 { animation-delay: 0.16s; }
-        .fade-in-delay-3 { animation-delay: 0.24s; }
+        .fade-in-delay-1 { animation-delay: 0.05s; }
+        .fade-in-delay-2 { animation-delay: 0.1s; }
+        .fade-in-delay-3 { animation-delay: 0.15s; }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(14px);
+                transform: translateY(10px) scale(0.98);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
+        }
+
+        .dropdown-content {
+            display: none;
+            animation: slideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform-origin: top;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .char-counter {
+            font-variant-numeric: tabular-nums;
         }
 
         @keyframes floaty {
@@ -139,43 +164,53 @@
         <div class="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-emerald-400/10 blur-3xl"></div>
     </div>
 
-    <header class="sticky top-0 z-40 border-b border-white/40 bg-white/70 backdrop-blur-xl">
-        <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-3 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-                <div class="flex items-center gap-3">
-                    <div class="icon-pill bg-[#0D47A1] text-white shadow-lg shadow-blue-200/60">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <div>
-                    <h1 class="text-lg font-black tracking-tight text-slate-900 sm:text-xl"><span data-role="app-title">{{ __('app_title') }}</span></h1>
-                    </div>
+    <header class="sticky top-0 z-50 border-b border-white/40 bg-white/80 backdrop-blur-xl">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="icon-pill h-9 w-9 bg-[#0D47A1] text-white shadow-lg shadow-blue-200/60 sm:h-11 sm:w-11">
+                    <i class="fa-solid fa-wand-magic-sparkles text-sm sm:text-base"></i>
                 </div>
+                <h1 class="text-base font-black tracking-tight text-slate-900 sm:text-xl">
+                    <span data-role="app-title">{{ __('app_title') }}</span>
+                </h1>
+            </div>
 
-            <label class="flex w-full items-center justify-between gap-3 rounded-full border border-slate-200/80 bg-white/85 px-3 py-2 shadow-sm sm:w-auto sm:justify-start">
-                <div class="relative">
-                    <select id="uiLanguageSwitcher" class="appearance-none rounded-full border-0 bg-transparent py-0 pl-3 pr-7 text-sm font-semibold text-slate-800 focus:outline-none">
-                        <option value="en" data-role="language-en">English</option>
-                        <option value="fa" data-role="language-fa">فارسی</option>
-                        <option value="ar" data-role="language-ar">العربية</option>
-                    </select>
-                    <i class="fa-solid fa-chevron-down pointer-events-none absolute inset-y-0 right-1 flex items-center text-[10px] text-slate-400"></i>
+            <div class="relative" id="languageDropdown">
+                <button type="button" id="langBtn" class="flex items-center gap-2 rounded-xl border border-slate-200/80 bg-white/90 py-2 pl-3 pr-2.5 text-xs font-bold text-slate-800 transition hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-100 sm:rounded-full sm:px-4 sm:text-sm">
+                    <span id="currentLangName">English</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition-transform duration-200" id="langChevron"></i>
+                </button>
+                <div id="langMenu" class="dropdown-content absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-40 rounded-2xl border border-slate-200/80 bg-white p-1.5 shadow-2xl ring-1 ring-black/5 sm:w-48">
+                    <button type="button" data-lang="en" class="lang-option flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-blue-600 sm:text-sm">
+                        <span class="flex h-5 w-5 items-center justify-center rounded-md bg-slate-100 text-[10px]">🇺🇸</span>
+                        <span data-role="language-en">English</span>
+                    </button>
+                    <button type="button" data-lang="fa" class="lang-option flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-blue-600 sm:text-sm" dir="rtl">
+                        <span class="flex h-5 w-5 items-center justify-center rounded-md bg-slate-100 text-[10px]">🇮🇷</span>
+                        <span data-role="language-fa">فارسی</span>
+                    </button>
+                    <button type="button" data-lang="ar" class="lang-option flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-xs font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-blue-600 sm:text-sm" dir="rtl">
+                        <span class="flex h-5 w-5 items-center justify-center rounded-md bg-slate-100 text-[10px]">🇸🇦</span>
+                        <span data-role="language-ar">العربية</span>
+                    </button>
                 </div>
-            </label>
+            </div>
         </div>
     </header>
 
-    <main class="relative mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 lg:max-w-6xl lg:px-8 lg:py-10">
-        <section class="glass fade-in soft-border rounded-[2.5rem] p-5 sm:p-7 lg:p-10">
+    <main class="relative mx-auto w-full max-w-4xl px-3 py-4 sm:px-6 lg:max-w-6xl lg:px-8 lg:py-10">
+        <section class="glass fade-in soft-border rounded-3xl p-4 sm:rounded-[2.5rem] sm:p-7 lg:p-10">
             <div class="max-w-3xl">
-                <h2 class="text-3xl font-black tracking-tight text-slate-900 sm:text-5xl" data-role="hero-title">{{ __('hero_title') }}</h2>
-                <p class="mt-4 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg" data-role="hero-description">{{ __('hero_description') }}</p>
+                <h2 class="text-2xl font-black tracking-tight text-slate-900 sm:text-5xl" data-role="hero-title">{{ __('hero_title') }}</h2>
+                <p class="mt-3 text-sm leading-7 text-slate-500 sm:mt-4 sm:text-lg sm:leading-8" data-role="hero-description">{{ __('hero_description') }}</p>
             </div>
 
-            <form id="captionForm" class="mt-8 space-y-5">
-                <div class="grid gap-5 md:grid-cols-2">
-                    <div class="space-y-2">
-                        <label class="text-sm font-bold text-slate-700" for="productType" data-role="product-type-label">{{ __('product_type_label') }}</label>
-                        <div class="relative">
-                            <select id="productType" class="input-surface w-full rounded-[1.25rem] border border-slate-200/80 px-4 py-4 text-base font-semibold text-slate-800 outline-none transition focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100">
+            <form id="captionForm" class="mt-6 space-y-4 sm:mt-8 sm:space-y-5">
+                <div class="grid gap-4 md:grid-cols-2 sm:gap-5">
+                    <div class="space-y-1.5 sm:space-y-2">
+                        <label class="text-xs font-bold text-slate-700 sm:text-sm" for="productType" data-role="product-type-label">{{ __('product_type_label') }}</label>
+                        <div class="relative group">
+                            <select id="productType" class="input-surface w-full appearance-none rounded-2xl border border-slate-200/80 pl-4 pr-10 rtl:pl-10 rtl:pr-4 py-3.5 text-sm font-semibold text-slate-800 outline-none transition focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100 sm:rounded-[1.25rem] sm:py-4 sm:text-base">
                                 <option value="fashion" data-product-option>{{ __('product_fashion') }}</option>
                                 <option value="electronics" data-product-option>{{ __('product_electronics') }}</option>
                                 <option value="beauty" data-product-option>{{ __('product_beauty') }}</option>
@@ -197,14 +232,14 @@
                                 <option value="gifts" data-product-option>{{ __('product_gifts') }}</option>
                                 <option value="others" data-product-option>{{ __('product_others') }}</option>
                             </select>
-                            <i class="fa-solid fa-caret-down pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400"></i>
+                            <i class="fa-solid fa-caret-down pointer-events-none absolute inset-y-0 right-4 rtl:right-auto rtl:left-4 flex items-center text-slate-400 transition-colors group-focus-within:text-blue-500"></i>
                         </div>
                     </div>
 
-                    <div class="space-y-2">
-                        <label class="text-sm font-bold text-slate-700" for="captionLanguage" data-role="output-language-label">{{ __('output_language') }}</label>
-                        <div class="relative">
-                            <select id="captionLanguage" class="input-surface w-full rounded-[1.25rem] border border-slate-200/80 px-4 py-4 text-base font-semibold text-slate-800 outline-none transition focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100">
+                    <div class="space-y-1.5 sm:space-y-2">
+                        <label class="text-xs font-bold text-slate-700 sm:text-sm" for="captionLanguage" data-role="output-language-label">{{ __('output_language') }}</label>
+                        <div class="relative group">
+                            <select id="captionLanguage" class="input-surface w-full appearance-none rounded-2xl border border-slate-200/80 pl-4 pr-10 rtl:pl-10 rtl:pr-4 py-3.5 text-sm font-semibold text-slate-800 outline-none transition focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100 sm:rounded-[1.25rem] sm:py-4 sm:text-base">
                                 <option value="en" data-role="language-en">{{ __('language_english') }}</option>
                                 <option value="fa" data-role="language-fa">{{ __('language_persian') }}</option>
                                 <option value="ar" data-role="language-ar">{{ __('language_arabic') }}</option>
@@ -216,88 +251,92 @@
                                 <option value="hi" data-role="language-hi">{{ __('language_hindi') }}</option>
                                 <option value="ru" data-role="language-ru">{{ __('language_russian') }}</option>
                             </select>
-                            <i class="fa-solid fa-caret-down pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400"></i>
+                            <i class="fa-solid fa-caret-down pointer-events-none absolute inset-y-0 right-4 rtl:right-auto rtl:left-4 flex items-center text-slate-400 transition-colors group-focus-within:text-blue-500"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-2">
-                    <label class="text-sm font-bold text-slate-700" for="productDescription" data-role="product-description-label">{{ __('product_description_label') }}</label>
+                <div class="space-y-1.5 sm:space-y-2">
+                    <div class="flex items-center justify-between">
+                        <label class="text-xs font-bold text-slate-700 sm:text-sm" for="productDescription" data-role="product-description-label">{{ __('product_description_label') }}</label>
+                        <span id="charCount" class="char-counter text-[10px] font-bold text-slate-400 sm:text-xs">0 / 1000</span>
+                    </div>
                     <textarea
                         id="productDescription"
                         data-role="product-description"
-                        rows="6"
-                        class="input-surface w-full rounded-[1.5rem] border border-slate-200/80 px-4 py-4 text-base leading-8 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100"
+                        rows="5"
+                        maxlength="1000"
+                        class="input-surface w-full rounded-2xl border border-slate-200/80 px-4 py-3.5 text-sm leading-7 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#0D47A1] focus:ring-4 focus:ring-blue-100 sm:rounded-[1.5rem] sm:px-4 sm:py-4 sm:text-base sm:leading-8"
                         placeholder="{{ __('product_description_placeholder') }}"
                     ></textarea>
                 </div>
 
-                <div class="flex flex-col gap-3 pt-2 sm:flex-row">
-                    <button type="submit" class="primary-button inline-flex items-center justify-center gap-3 rounded-[1.35rem] px-6 py-4 text-base font-bold text-white transition hover:scale-[1.01]">
-                        <i class="fa-solid fa-sparkles"></i>
+                <div class="flex flex-col gap-3 pt-2 sm:flex-row sm:pt-4">
+                    <button type="submit" class="primary-button group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-2xl px-6 py-4 text-sm font-bold text-white transition-all hover:scale-[1.01] active:scale-95 sm:rounded-[1.35rem] sm:text-base">
+                        <i class="fa-solid fa-sparkles transition-transform group-hover:rotate-12 group-hover:scale-110"></i>
                         <span data-role="generate-button">{{ __('generate_button') }}</span>
                     </button>
-                    <button type="button" id="resetButton" class="inline-flex items-center justify-center gap-3 rounded-[1.35rem] border border-slate-200 bg-white/80 px-6 py-4 text-base font-bold text-slate-700 transition hover:scale-[1.01] hover:border-slate-300">
-                        <i class="fa-solid fa-rotate-left"></i>
+                    <button type="button" id="resetButton" class="inline-flex items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-6 py-4 text-sm font-bold text-slate-700 transition hover:scale-[1.01] hover:border-slate-300 active:scale-95 sm:rounded-[1.35rem] sm:text-base">
+                        <i class="fa-solid fa-rotate-left transition-transform active:rotate-180"></i>
                         <span data-role="reset-button">{{ __('reset_button') }}</span>
                     </button>
                 </div>
             </form>
 
-            <div id="loadingState" class="mt-6 hidden rounded-[1.5rem] border border-blue-100 bg-blue-50/60 p-5">
+            <div id="loadingState" class="mt-4 hidden rounded-2xl border border-blue-100 bg-blue-50/60 p-4 sm:mt-6 sm:rounded-[1.5rem] sm:p-5">
                 <div class="flex items-center gap-3">
-                    <div class="h-11 w-11 rounded-2xl border-4 border-blue-100 border-t-[#0D47A1] animate-spin"></div>
+                    <div class="h-9 w-9 rounded-xl border-4 border-blue-100 border-t-[#0D47A1] animate-spin sm:h-11 sm:w-11 sm:rounded-2xl"></div>
                     <div>
-                        <p class="font-bold text-slate-900" data-role="loading-text">{{ __('loading_text') }}</p>
+                        <p class="text-sm font-bold text-slate-900 sm:text-base" data-role="loading-text">{{ __('loading_text') }}</p>
                     </div>
                 </div>
             </div>
 
-            <div id="errorState" class="mt-6 hidden rounded-[1.5rem] border border-rose-200 bg-rose-50/80 p-5 text-rose-700">
+            <div id="errorState" class="mt-4 hidden rounded-2xl border border-rose-200 bg-rose-50/80 p-4 text-rose-700 sm:mt-6 sm:rounded-[1.5rem] sm:p-5">
                 <div class="flex items-start gap-3">
-                    <div class="icon-pill bg-rose-100 text-rose-600">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div class="icon-pill h-9 w-9 bg-rose-100 text-rose-600 sm:h-11 sm:w-11">
+                        <i class="fa-solid fa-triangle-exclamation text-sm sm:text-base"></i>
                     </div>
-                    <div class="text-sm font-semibold leading-7">
+                    <div class="text-xs font-semibold leading-6 sm:text-sm sm:leading-7">
                         <p id="errorText"></p>
                     </div>
                 </div>
             </div>
 
-            <div id="resultState" class="mt-6 hidden space-y-4">
-                <div class="grid gap-4 lg:grid-cols-2">
-                    <div class="rounded-[1.5rem] border border-slate-200/80 bg-white/85 p-5">
+            <div id="resultState" class="mt-4 hidden space-y-3 sm:mt-6 sm:space-y-4">
+                <div class="grid gap-3 lg:grid-cols-2 sm:gap-4">
+                    <div class="rounded-2xl border border-slate-200/80 bg-white/85 p-4 sm:rounded-[1.5rem] sm:p-5">
                         <div class="flex items-center justify-between gap-3">
-                            <h4 class="text-base font-black text-slate-900" data-role="caption-title">{{ __('caption_title') }}</h4>
-                            <button type="button" data-copy-target="caption" class="copy-btn inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300">
+                            <h4 class="text-sm font-black text-slate-900 sm:text-base" data-role="caption-title">{{ __('caption_title') }}</h4>
+                            <button type="button" data-copy-target="caption" class="copy-btn inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-bold text-slate-700 transition hover:border-slate-300 sm:px-3 sm:py-2 sm:text-xs">
                                 <i class="fa-solid fa-copy"></i>
                                 <span>{{ __('copy_caption') }}</span>
                             </button>
                         </div>
-                        <p id="captionText" class="mt-4 whitespace-pre-wrap text-sm leading-8 text-slate-700"></p>
+                        <p id="captionText" class="mt-3 whitespace-pre-wrap text-xs leading-7 text-slate-700 sm:mt-4 sm:text-sm sm:leading-8"></p>
                     </div>
 
-                    <div class="rounded-[1.5rem] border border-slate-200/80 bg-white/85 p-5">
+                    <div class="rounded-2xl border border-slate-200/80 bg-white/85 p-4 sm:rounded-[1.5rem] sm:p-5">
                         <div class="flex items-center justify-between gap-3">
-                            <h4 class="text-base font-black text-slate-900" data-role="hashtags-title">{{ __('hashtags_title') }}</h4>
-                            <button type="button" data-copy-target="hashtags" class="copy-btn inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300">
+                            <h4 class="text-sm font-black text-slate-900 sm:text-base" data-role="hashtags-title">{{ __('hashtags_title') }}</h4>
+                            <button type="button" data-copy-target="hashtags" class="copy-btn inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2.5 py-1.5 text-[10px] font-bold text-slate-700 transition hover:border-slate-300 sm:px-3 sm:py-2 sm:text-xs">
                                 <i class="fa-solid fa-copy"></i>
                                 <span>{{ __('copy_hashtags') }}</span>
                             </button>
                         </div>
-                        <div id="hashtagsWrap" class="mt-4 flex flex-wrap gap-2"></div>
+                        <div id="hashtagsWrap" class="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2"></div>
                     </div>
                 </div>
 
-                <div class="rounded-[1.5rem] border border-slate-200/80 bg-white/85 p-5">
-                    <div class="flex flex-col gap-2">
-                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-cyan-600" data-role="analysis-label">{{ __('analysis_label') }}</p>
-                        <h4 id="angleText" class="text-lg font-black text-slate-900"></h4>
+                <div class="rounded-2xl border border-slate-200/80 bg-white/85 p-4 sm:rounded-[1.5rem] sm:p-5">
+                    <div class="flex flex-col gap-1.5 sm:gap-2">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-600 sm:text-xs" data-role="analysis-label">{{ __('analysis_label') }}</p>
+                        <h4 id="angleText" class="text-base font-black text-slate-900 sm:text-lg"></h4>
                     </div>
-                    <p id="suggestionText" class="mt-4 text-sm leading-7 text-slate-600"></p>
+                    <p id="suggestionText" class="mt-3 text-xs leading-6 text-slate-600 sm:mt-4 sm:text-sm sm:leading-7"></p>
                 </div>
 
-                <button type="button" id="copyAllButton" class="primary-button inline-flex w-full items-center justify-center gap-3 rounded-[1.35rem] px-6 py-4 text-base font-bold text-white transition hover:scale-[1.01]">
+                <button type="button" id="copyAllButton" class="primary-button inline-flex w-full items-center justify-center gap-3 rounded-2xl px-6 py-4 text-sm font-bold text-white transition hover:scale-[1.01] active:scale-95 sm:rounded-[1.35rem] sm:text-base">
                     <i class="fa-solid fa-clone"></i>
                     <span data-role="copy-all">{{ __('copy_all') }}</span>
                 </button>
@@ -305,23 +344,23 @@
 
             <div id="emptyResultState" class="mt-6 hidden"></div>
 
-            <section class="glass fade-in fade-in-delay-1 soft-border mt-6 rounded-[2.5rem] p-6 sm:p-7">
+            <section class="glass fade-in fade-in-delay-1 soft-border mt-4 rounded-3xl p-4 sm:mt-6 sm:rounded-[2.5rem] sm:p-7">
                 <div class="flex items-center justify-between gap-4">
-                    <h3 class="text-xl font-black tracking-tight text-slate-900" data-role="history-title">{{ __('history_title') }}</h3>
-                    <button type="button" id="clearHistoryButton" class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 transition hover:border-rose-300 hover:bg-rose-100">
+                    <h3 class="text-lg font-black tracking-tight text-slate-900 sm:text-xl" data-role="history-title">{{ __('history_title') }}</h3>
+                    <button type="button" id="clearHistoryButton" class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-[10px] font-bold text-rose-700 transition hover:border-rose-300 hover:bg-rose-100 sm:px-3 sm:py-2 sm:text-xs">
                         <i class="fa-solid fa-broom"></i>
                         <span data-role="history-clear">{{ __('history_clear') }}</span>
                     </button>
                 </div>
-                <div id="historyList" class="scrollbar-thin mt-5 space-y-3 max-h-[28rem] overflow-auto pr-1"></div>
+                <div id="historyList" class="scrollbar-thin mt-4 space-y-3 max-h-[24rem] overflow-auto pr-1 sm:mt-5 sm:max-h-[28rem]"></div>
             </section>
         </section>
     </main>
 
-    <div id="toast" class="pointer-events-none fixed bottom-6 right-6 z-50 translate-y-6 opacity-0 transition duration-300">
+    <div id="toast" class="pointer-events-none fixed bottom-4 right-4 z-50 translate-y-6 opacity-0 transition duration-300 sm:bottom-6 sm:right-6">
         <div class="glass-dark flex items-center gap-3 rounded-full px-4 py-3 text-white shadow-2xl">
             <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
-            <span id="toastText" class="text-sm font-semibold"></span>
+            <span id="toastText" class="text-xs font-semibold sm:text-sm"></span>
         </div>
     </div>
 
@@ -541,10 +580,14 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const uiLanguageSwitcher = document.getElementById('uiLanguageSwitcher');
+            const langBtn = document.getElementById('langBtn');
+            const langMenu = document.getElementById('langMenu');
+            const langChevron = document.getElementById('langChevron');
+            const currentLangName = document.getElementById('currentLangName');
             const productType = document.getElementById('productType');
             const captionLanguage = document.getElementById('captionLanguage');
             const productDescription = document.getElementById('productDescription');
+            const charCount = document.getElementById('charCount');
             const form = document.getElementById('captionForm');
             const resetButton = document.getElementById('resetButton');
             const clearHistoryButton = document.getElementById('clearHistoryButton');
@@ -568,6 +611,35 @@
                 result: null,
                 history: []
             };
+
+            // Custom Dropdown Logic
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langMenu.classList.toggle('show');
+                langChevron.classList.toggle('rotate-180');
+            });
+
+            document.addEventListener('click', () => {
+                langMenu.classList.remove('show');
+                langChevron.classList.remove('rotate-180');
+            });
+
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const lang = option.getAttribute('data-lang');
+                    applyLanguage(lang);
+                    loadHistory();
+                    langMenu.classList.remove('show');
+                    langChevron.classList.remove('rotate-180');
+                });
+            });
+
+            // Char Counter Logic
+            productDescription.addEventListener('input', () => {
+                const len = productDescription.value.length;
+                charCount.textContent = `${len} / 1000`;
+                charCount.classList.toggle('text-rose-500', len >= 1000);
+            });
 
             const dirFor = (lang) => (lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr');
 
@@ -608,6 +680,15 @@
                 document.body.classList.toggle('rtl', state.uiLang !== 'en');
 
                 const t = getT(state.uiLang);
+                
+                // Update Current Lang Name in Button
+                const langLabels = {
+                    en: t.languageEnglish,
+                    fa: t.languagePersian,
+                    ar: t.languageArabic
+                };
+                currentLangName.textContent = langLabels[state.uiLang];
+
                 const setText = (selector, value) => {
                     const element = document.querySelector(selector);
                     if (element) {
@@ -670,7 +751,6 @@
                 setAllText('[data-role="language-hi"]', t.languageHindi);
                 setAllText('[data-role="language-ru"]', t.languageRussian);
 
-                uiLanguageSwitcher.value = state.uiLang;
                 setUrlLang(state.uiLang);
 
                 if (!productDescription.value) {
@@ -732,24 +812,24 @@
                 }[item.caption_language] || item.caption_language;
 
                 return `
-                    <article class="rounded-[1.35rem] border border-slate-200/80 bg-white/80 p-4 transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg">
+                    <article class="rounded-2xl border border-slate-200/80 bg-white/80 p-3.5 transition hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg sm:rounded-[1.35rem] sm:p-4">
                         <div class="flex items-start justify-between gap-3">
-                            <div>
-                                <div class="flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400">
-                                    <span>${escapeHtml(productLabel)}</span>
+                            <div class="min-w-0 flex-1">
+                                <div class="flex flex-wrap items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 sm:gap-2 sm:text-[11px] sm:tracking-[0.18em]">
+                                    <span class="truncate">${escapeHtml(productLabel)}</span>
                                     <span>•</span>
                                     <span>${escapeHtml(languageLabel)}</span>
                                 </div>
-                                <p class="mt-2 text-sm leading-7 text-slate-700">${escapeHtml((item.generated_suggestion || '').slice(0, 140))}</p>
+                                <p class="mt-1.5 line-clamp-2 text-xs leading-6 text-slate-700 sm:mt-2 sm:text-sm sm:leading-7">${escapeHtml(item.generated_suggestion || '')}</p>
                             </div>
-                            <button type="button" class="history-copy rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-slate-300" data-history-index="${escapeHtml(String(item._index))}">
-                                <i class="fa-solid fa-copy mr-1"></i>
-                                ${escapeHtml(getT().copyAll)}
+                            <button type="button" class="history-copy flex-shrink-0 rounded-xl border border-slate-200 bg-white p-2 text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 active:scale-95 sm:rounded-full sm:px-3 sm:py-2 sm:text-xs sm:font-bold" data-history-index="${escapeHtml(String(item._index))}">
+                                <i class="fa-solid fa-copy sm:mr-1"></i>
+                                <span class="hidden sm:inline">${escapeHtml(getT().copyAll)}</span>
                             </button>
                         </div>
-                        <div class="mt-4 rounded-2xl bg-slate-50 p-4">
-                            <p class="line-clamp-4 text-sm leading-7 text-slate-600">${escapeHtml(item.generated_caption || '')}</p>
-                            <p class="mt-3 text-xs font-semibold text-cyan-700">${escapeHtml(item.generated_hashtags || '')}</p>
+                        <div class="mt-3 rounded-xl bg-slate-50 p-3 sm:mt-4 sm:rounded-2xl sm:p-4">
+                            <p class="line-clamp-3 text-xs leading-6 text-slate-600 sm:line-clamp-4 sm:text-sm sm:leading-7">${escapeHtml(item.generated_caption || '')}</p>
+                            <p class="mt-2 text-[10px] font-semibold text-cyan-700 sm:mt-3 sm:text-xs">${escapeHtml(item.generated_hashtags || '')}</p>
                         </div>
                     </article>
                 `;
@@ -817,15 +897,12 @@
                 });
             });
 
-            uiLanguageSwitcher.addEventListener('change', (event) => {
-                applyLanguage(event.target.value);
-                loadHistory();
-            });
-
             resetButton.addEventListener('click', () => {
                 form.reset();
                 clearError();
                 state.result = null;
+                charCount.textContent = '0 / 1000';
+                charCount.classList.remove('text-rose-500');
                 captionLanguage.value = state.uiLang;
                 emptyResultState.classList.remove('hidden');
                 resultState.classList.add('hidden');
@@ -858,6 +935,34 @@
                 await copyText(text);
             });
 
+            resetButton.addEventListener('click', () => {
+                form.reset();
+                clearError();
+                state.result = null;
+                charCount.textContent = '0 / 1000';
+                charCount.classList.remove('text-rose-500');
+                captionLanguage.value = state.uiLang;
+                emptyResultState.classList.remove('hidden');
+                resultState.classList.add('hidden');
+            });
+
+            clearHistoryButton.addEventListener('click', async () => {
+                try {
+                    await fetch('/history', {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': csrf,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    await loadHistory();
+                    showToast(getT().historyCleared);
+                } catch (error) {
+                    setError(getT().errorFailed);
+                }
+            });
+
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
                 clearError();
@@ -887,6 +992,16 @@
                     }
 
                     renderResult(data);
+                    
+                    // Smooth scroll to result
+                    setTimeout(() => {
+                        resultState.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start',
+                            inline: 'nearest' 
+                        });
+                    }, 100);
+
                     await loadHistory();
                     showToast(getT().successGenerated);
                 } catch (error) {
@@ -899,7 +1014,6 @@
             const initialLang = new URL(window.location.href).searchParams.get('lang') || '{{ $initialLang ?? 'en' }}';
             applyLanguage(initialLang);
             captionLanguage.value = state.uiLang;
-            uiLanguageSwitcher.value = state.uiLang;
 
             loadHistory();
         });

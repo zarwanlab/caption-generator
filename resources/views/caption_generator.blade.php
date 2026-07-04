@@ -345,16 +345,6 @@
 
             <div id="emptyResultState" class="mt-6 hidden"></div>
 
-            <section class="glass fade-in fade-in-delay-1 soft-border mt-4 rounded-3xl p-4 sm:mt-6 sm:rounded-[2.5rem] sm:p-7">
-                <div class="flex items-center justify-between gap-4">
-                    <h3 class="text-lg font-black tracking-tight text-slate-900 sm:text-xl" data-role="history-title">{{ __('history_title') }}</h3>
-                    <button type="button" id="clearHistoryButton" class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-[10px] font-bold text-rose-700 transition hover:border-rose-300 hover:bg-rose-100 sm:px-3 sm:py-2 sm:text-xs">
-                        <i class="fa-solid fa-broom"></i>
-                        <span data-role="history-clear">{{ __('history_clear') }}</span>
-                    </button>
-                </div>
-                <div id="historyList" class="scrollbar-thin mt-4 space-y-3 max-h-[24rem] overflow-auto pr-1 sm:mt-5 sm:max-h-[28rem]"></div>
-            </section>
         </section>
     </main>
 

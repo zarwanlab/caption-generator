@@ -39,6 +39,9 @@ return [
         'base_url' => env('AI_BASE_URL', 'https://ai.zarwan.co/v1/chat/completions'),
         'token' => env('AI_TOKEN'),
         'model' => env('AI_MODEL', 'cf/@cf/openai/gpt-oss-120b'),
+        'timeout' => env('AI_TIMEOUT', 120),
+        'connect_timeout' => env('AI_CONNECT_TIMEOUT', 20),
+        'verify_ssl' => env('AI_VERIFY_SSL', true),
     ],
 
 ];

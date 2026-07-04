@@ -29,6 +29,9 @@ class AiController extends Controller
         $baseUrl = config('services.ai.base_url');
         $token = config('services.ai.token');
         $model = config('services.ai.model');
+        $timeout = (int) config('services.ai.timeout', 120);
+        $connectTimeout = (int) config('services.ai.connect_timeout', 20);
+        $verifySsl = filter_var(config('services.ai.verify_ssl', true), FILTER_VALIDATE_BOOL);
 
         if (!$baseUrl || !$token || !$model) {
             Log::error('AI API configuration missing.', [
@@ -58,8 +61,15 @@ class AiController extends Controller
                 'stream' => false,
             ];
 
-            $response = Http::timeout(120)
+            $response = Http::timeout($timeout)
+                ->connectTimeout($connectTimeout)
                 ->acceptJson()
+                ->withOptions([
+                    'verify' => $verifySsl,
+                    'curl' => [
+                        CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4,
+                    ],
+                ])
                 ->withHeaders([
                 'Authorization' => 'Bearer ' . $token,
                 'Content-Type' => 'application/json',
@@ -92,15 +102,26 @@ class AiController extends Controller
                 'angle' => $parsed['angle'],
                 'history' => $history,
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            $errorMessage = $this->formatAiError($e);
+
             Log::error('AI API call failed', [
+                'exception' => get_class($e),
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
                 'file' => $e->getFile(),
-                'line' => $e->getLine()
+                'line' => $e->getLine(),
+                'baseUrl' => $baseUrl,
+                'model' => $model,
+                'timeout' => $timeout,
+                'connectTimeout' => $connectTimeout,
+                'verifySsl' => $verifySsl,
             ]);
 
-            return response()->json(['error' => 'AI API call failed: ' . $e->getMessage()], 500);
+            return response()->json([
+                'error' => $errorMessage,
+                'details' => $e->getMessage(),
+            ], 500);
         }
     }
 
@@ -235,5 +256,29 @@ PROMPT;
             'ru' => 'Russian',
             default => 'English',
         };
+    }
+
+    private function formatAiError(\Throwable $e): string
+    {
+        $message = $e->getMessage();
+        $code = (int) $e->getCode();
+
+        if ($code === 60 || str_contains($message, 'cURL error 60')) {
+            return 'AI service connection failed because SSL certificate verification is not working on the server. Try setting AI_VERIFY_SSL=false on the host.';
+        }
+
+        if ($code === 7 || str_contains($message, 'cURL error 7')) {
+            return 'AI service connection failed because the host could not reach the AI endpoint. Check outbound network access and firewall rules.';
+        }
+
+        if ($code === 28 || str_contains($message, 'cURL error 28') || str_contains($message, 'timed out')) {
+            return 'AI service request timed out. Increase AI_TIMEOUT or AI_CONNECT_TIMEOUT in the host environment.';
+        }
+
+        if (str_contains($message, 'Could not resolve host')) {
+            return 'AI service connection failed because the AI host name could not be resolved.';
+        }
+
+        return 'AI API call failed on the server.';
     }
 }

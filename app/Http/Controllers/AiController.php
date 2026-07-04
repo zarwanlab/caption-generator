@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Services\HistoryService;
@@ -104,6 +105,7 @@ class AiController extends Controller
             ]);
         } catch (\Throwable $e) {
             $errorMessage = $this->formatAiError($e);
+            $errorDetails = $this->formatAiDetails($e);
 
             Log::error('AI API call failed', [
                 'exception' => get_class($e),
@@ -120,7 +122,7 @@ class AiController extends Controller
 
             return response()->json([
                 'error' => $errorMessage,
-                'details' => $e->getMessage(),
+                'details' => $errorDetails,
             ], 500);
         }
     }
@@ -260,6 +262,24 @@ PROMPT;
 
     private function formatAiError(\Throwable $e): string
     {
+        if ($e instanceof RequestException) {
+            $status = $e->response?->status();
+            $body = $e->response?->body() ?? '';
+            $body = trim((string) $body);
+
+            if ($status === 401 || $status === 403) {
+                return 'AI API returned an authentication error. Check AI_TOKEN and make sure the host is using the latest .env values.';
+            }
+
+            if ($status === 429) {
+                return 'AI API rate limit reached. Try again later or reduce request frequency.';
+            }
+
+            if ($status && $body !== '') {
+                return "AI API returned HTTP {$status}.";
+            }
+        }
+
         $message = $e->getMessage();
         $code = (int) $e->getCode();
 
@@ -280,5 +300,33 @@ PROMPT;
         }
 
         return 'AI API call failed on the server.';
+    }
+
+    private function formatAiDetails(\Throwable $e): string
+    {
+        if ($e instanceof RequestException) {
+            $status = $e->response?->status();
+            $body = trim((string) ($e->response?->body() ?? ''));
+
+            if ($body === '') {
+                return $e->getMessage();
+            }
+
+            $decoded = json_decode($body, true);
+
+            if (is_array($decoded)) {
+                $message = data_get($decoded, 'error.message')
+                    ?? data_get($decoded, 'message')
+                    ?? data_get($decoded, 'detail');
+
+                if (is_string($message) && $message !== '') {
+                    return $status ? "HTTP {$status}: {$message}" : $message;
+                }
+            }
+
+            return $status ? "HTTP {$status}: {$body}" : $body;
+        }
+
+        return $e->getMessage();
     }
 }

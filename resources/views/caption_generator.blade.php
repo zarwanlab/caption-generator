@@ -177,7 +177,8 @@
 
             <div class="relative" id="languageDropdown">
                 <button type="button" id="langBtn" class="flex items-center gap-2 rounded-xl border border-slate-200/80 bg-white/90 py-2 pl-3 pr-2.5 text-xs font-bold text-slate-800 transition hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-100 sm:rounded-full sm:px-4 sm:text-sm">
-                    <span id="currentLangName">English</span>
+                <i class="fa-solid fa-globe text-blue-600"></i>    
+                <span id="currentLangName">English</span>
                     <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition-transform duration-200" id="langChevron"></i>
                 </button>
                 <div id="langMenu" class="dropdown-content absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-40 rounded-2xl border border-slate-200/80 bg-white p-1.5 shadow-2xl ring-1 ring-black/5 sm:w-48">
@@ -988,7 +989,11 @@
                     const data = await response.json();
 
                     if (!response.ok) {
-                        throw new Error(data.error || getT().errorFailed);
+                        const message = data.details
+                            ? `${data.error || getT().errorFailed}: ${data.details}`
+                            : (data.error || getT().errorFailed);
+
+                        throw new Error(message);
                     }
 
                     renderResult(data);
